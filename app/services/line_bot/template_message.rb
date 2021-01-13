@@ -25,6 +25,24 @@ class LineBot::TemplateMessage
     }
   end
 
+  def self.quick_reply
+    {
+        "type": "text",
+        "text": "位置情報ボタンを押してください",
+        "quickReply": {
+            "items": [
+                {
+                    "type": "action",
+                    "action": {
+                        "type": "location",
+                        "label": "位置情報を送る",
+                    }
+                }
+            ]
+        }
+    }
+  end
+
   def error?
     shops_information.include?('error')
   end
