@@ -18,14 +18,22 @@ class LinebotController < ApplicationController
         when Line::Bot::Event::MessageType::Text
           text = Grunavi::RequestText.new(event.message['text'])
           res = text.send
-          template = LineBot::TemplateMessage.new(res["rest"])
-          reply = template.carousel
+          template = LineBot::TemplateMessage.new(res)
+          reply = if template.error?
+                    template.error_message
+                  else
+                    template.carousel
+                  end
           client.reply_message(event['replyToken'], reply)
         when Line::Bot::Event::MessageType::Location
           location = Grunavi::RequestLocation.new(event.message['latitude'], event.message['longitude'])
           res = location.send
-          template = LineBot::TemplateMessage.new(res["rest"])
-          reply = template.carousel
+          template = LineBot::TemplateMessage.new(res)
+          reply = if template.error?
+                    template.error_message
+                  else
+                    template.carousel
+                  end
           client.reply_message(event['replyToken'], reply)
         end
       end

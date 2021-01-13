@@ -11,11 +11,22 @@ class LineBot::TemplateMessage
         "altText": "this is a carousel template",
         "template": {
             "type": "carousel",
-            "columns": insert_carousel_inner(shops_information),
+            "columns": insert_carousel_inner(shops_information["rest"]),
             "imageAspectRatio": "rectangle",
             "imageSize": "cover"
         }
     }
+  end
+
+  def error_message
+    {
+        type: "text",
+        text: shops_information["error"][0]["message"]
+    }
+  end
+
+  def error?
+    shops_information.include?('error')
   end
 
   private
@@ -25,6 +36,8 @@ class LineBot::TemplateMessage
 
     shops_information.each do |params|
       result << {
+          "thumbnailImageUrl": image_select(params),
+          "imageBackgroundColor": "#000000",
           "title": params["name"],
           "text": params["category"],
           "defaultAction": {
@@ -42,6 +55,13 @@ class LineBot::TemplateMessage
       }
     end
     result
+  end
+
+  def image_select(params)
+    image = "https://example.com/bot/images/item1.jpg"
+    image = params["image_url"]["shop_image2"] if params["image_url"]["shop_image2"].present?
+    image = params["image_url"]["shop_image1"] if params["image_url"]["shop_image1"].present?
+    image
   end
 end
 
