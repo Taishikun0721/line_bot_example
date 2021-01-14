@@ -25,6 +25,24 @@ class LineBot::TemplateMessage
     }
   end
 
+  def self.quick_reply
+    {
+        "type": "text",
+        "text": "位置情報ボタンを押してください",
+        "quickReply": {
+            "items": [
+                {
+                    "type": "action",
+                    "action": {
+                        "type": "location",
+                        "label": "位置情報を送る",
+                    }
+                }
+            ]
+        }
+    }
+  end
+
   def error?
     shops_information.include?('error')
   end
@@ -39,7 +57,7 @@ class LineBot::TemplateMessage
           "thumbnailImageUrl": image_select(params),
           "imageBackgroundColor": "#000000",
           "title": params["name"],
-          "text": params["category"],
+          "text": text_inner(params),
           "defaultAction": {
               "type": "uri",
               "label": "View detail",
@@ -62,6 +80,10 @@ class LineBot::TemplateMessage
     image = params["image_url"]["shop_image2"] if params["image_url"]["shop_image2"].present?
     image = params["image_url"]["shop_image1"] if params["image_url"]["shop_image1"].present?
     image
+  end
+
+  def text_inner(params)
+    "カテゴリー: #{params["category"]}" + "\n" + "予算: #{params["budget"]}円" + "\n" + "徒歩での距離: #{params["access"]["line"] + params["access"]["station"]}から#{params["access"]["walk"]}分"
   end
 end
 
