@@ -1,24 +1,22 @@
-# README
+# fooddelivery
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##　作成した理由
+コロナ禍でどうしても外出しないといけない人の為に近くのテイクアウト可能な店を返すことができるLINEbotを作成しました。
+現在地を送信する事で、半径500m以内にあるテイクアウト可能な店を10件まで返信してくれます。
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## RubyとRailsのバージョン
+ - Ruby2.7.2
+ - Rails 6系
+ 
+## 使用したgem 
+- line-bot-api
+  - LINE message API を使用する為
+- dotenv-rails
+  - 本番環境と開発環境での環境変数使い分けの為
+- config
+  - APIのエンドポイントなど、ハードコーディングを避ける為
+  
+## これからの拡張について
+今後は、LINEを入り口にして、webに遷移する様なUIにしてもおもしろいと思った。
+やっぱりWEBの方が自由なUIを構築できるし詳細な情報を見るならWebで見せた方がいい気がする。
+後、ぐるなびAPIで情報を返しているが6月末でサービス提供中止になってしまうので代替え案を考えないといけない。
