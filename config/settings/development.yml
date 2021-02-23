@@ -1,2 +1,6 @@
 grunavi_end_point:
   url: "https://api.gnavi.co.jp/RestSearchAPI/v3/"
+
+grunavi_params:
+  range_flag: 2
+  takeout_flag: 1
