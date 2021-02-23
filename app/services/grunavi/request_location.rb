@@ -16,7 +16,7 @@ class Grunavi::RequestLocation
   private
 
   def search_params
-    { keyid: ENV["GRUNAVI_ACCESS_TOKEN"], latitude: latitude, longitude: longitude, range: 2, takeout: 1 }
+    { keyid: ENV["GRUNAVI_ACCESS_TOKEN"], latitude: latitude, longitude: longitude, range: Settings.grunavi_params[:range_flag], takeout: Settings.grunavi_params[:takeout_flag] }
   end
 
 end

@@ -19,7 +19,7 @@ class LinebotController < ApplicationController
           reply = LineBot::TemplateMessage.quick_reply
           client.reply_message(event['replyToken'], reply)
         when Line::Bot::Event::MessageType::Location
-          location = Grunavi::RequestLocation.new(event.message['latitude'], event.message['longitude'])
+          location = Grunavi::RequestLocation.new(event.message.dig('latitude'), event.message.dig('longitude'))
           res = location.send
           template = LineBot::TemplateMessage.new(res)
           reply = if template.error?

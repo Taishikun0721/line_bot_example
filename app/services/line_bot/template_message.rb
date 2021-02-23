@@ -1,8 +1,8 @@
 class LineBot::TemplateMessage
 
-  attr_reader :shops_information
-  def initialize(shops_imformation)
-    @shops_information = shops_imformation
+  attr_reader :api_params
+  def initialize(api_params)
+    @api_params = api_params
   end
 
   def carousel
@@ -11,7 +11,7 @@ class LineBot::TemplateMessage
         "altText": "this is a carousel template",
         "template": {
             "type": "carousel",
-            "columns": insert_carousel_inner(shops_information["rest"]),
+            "columns": carousel_inner(api_params.dig('rest')),
             "imageAspectRatio": "rectangle",
             "imageSize": "cover"
         }
@@ -21,7 +21,7 @@ class LineBot::TemplateMessage
   def error_message
     {
         type: "text",
-        text: shops_information["error"][0]["message"]
+        text: api_params.dig('error', 0, 'message')
     }
   end
 
@@ -44,17 +44,17 @@ class LineBot::TemplateMessage
   end
 
   def error?
-    shops_information.include?('error')
+    api_params.include?('error')
   end
 
   private
 
-  def insert_carousel_inner(shops_information)
+  def carousel_inner(api_params)
     result = []
 
-    shops_information.each do |params|
+    api_params.each do |params|
       result << {
-          "thumbnailImageUrl": image_select(params),
+          "thumbnailImageUrl": image(params),
           "imageBackgroundColor": "#000000",
           "title": params["name"],
           "text": text_inner(params),
@@ -75,7 +75,7 @@ class LineBot::TemplateMessage
     result
   end
 
-  def image_select(params)
+  def image(params)
     image = "https://example.com/bot/images/item1.jpg"
     image = params["image_url"]["shop_image2"] if params["image_url"]["shop_image2"].present?
     image = params["image_url"]["shop_image1"] if params["image_url"]["shop_image1"].present?
